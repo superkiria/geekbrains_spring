@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form action="">
+        <!--/*@thymesVar id="helloText" type="ru.motrichkin.WelcomeController"*/-->
+        <h1 th:text="${helloText}"></h1>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. <br>
+            <b>Tempore</b> iusto, obcaecati porro velit reprehenderit quibusdam pariatur  <br>
+            <i>iure sapiente</i> architecto similique unde rem illo alias.  <br>
+            Eaque fugiat quae laborum porro quibusdam.</p>
+            <!--  -->
+            <div class="block">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque dolor fugiat optio veniam debitis sapiente sunt iusto labore facilis ad libero vero eligendi cum excepturi, saepe et omnis numquam obcaecati!
+            </div>
+            <ul>
+                <li>Пункт первый</li>
+                <li>Второй пункт</li>
+                <li>А это третий</li>
+            </ul>
+            <ul>
+                <li>Опять первый пункт</li>
+                <li>И снова второй</li>
+                <li>А тут повтор третьего</li>
+            </ul>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="contacts.html">Контактная информация</a></li>
+                <li><a href="catalog/product.html">Продукт</a></li>
+                <li><a href="https://www.artlebedev.ru/typograf/" target="_blank">Типограф</a></li>
+            </ul>
+            Ваше имя <input type="text" placeholder="Имя"><br>
+            Пароль <input type="password" name="" id="" placeholder="Пароль"><br>
+            Ваша почта <input type="email" name="" id="" placeholder="email@email.ru"><br>
+            Дата рождения <input type="date" name="" id="" placeholder="ДД.ММ.ГГГГ"><br>
+            Ваш возраст <input type="number" name="" id="" placeholder="88"><br>
+            <h4>Инфо</h4>
+            Ваши увлечения<br>
+            <label for="">IT <input type="checkbox" name="IT" id=""></label><br>
+            <label for=""></label>Sport <input type="checkbox" name="Sport" id=""></label><br>
+            Ваш пол<br>
+            <label for=""><input type="radio" name="sex" id="">M</label>
+            <label for=""><input type="radio" name="sex" id="">Ж</label><br>
+            Год завершения школы
+            <select name="" id="">
+                <option value="2000">2000</option>
+                <option value="2001">2001</option>
+            </select><br>
+            Ваши пожелания<br>
+            <textarea name="" id="" cols="30" rows="10"></textarea><br>
+            <button type="submit">Отправить</button>
+            <button type="reset">Удалить</button>
+            <hr>
+            &copy; Все права защищены.
+    </form>
+</body>
+</html>
+<!-- 
+Логотип ведёт на главную
+Меню находится на каждой странице
+Страница напишите нам
+Карта
+
+ -->
