@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.motrichkin.persistence.Product;
 import ru.motrichkin.persistence.ProductRepository;
 
+import java.util.Scanner;
+
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -35,11 +37,13 @@ public class ProductController {
 
     @RequestMapping("/id")
     public String productById(@RequestParam("id") String id, Model model) {
-//        нужна ещё проверка на то, что из строки парсится Long
-        Product product = productRepository.getById(Long.parseLong(id));
-        if (product != null) {
-            model.addAttribute("product", product);
-            return "product";
+        Scanner scanner = new Scanner(id);
+        if (scanner.hasNextLong()) {
+            Product product = productRepository.getById(scanner.nextLong());
+            if (product != null) {
+                model.addAttribute("product", product);
+                return "product";
+            }
         }
         return allProducts(model);
     }
