@@ -11,6 +11,12 @@ public class PersonRepository {
 
     private final List<Person> persons = new ArrayList<>();
 
+    public PersonRepository() {
+        persons.add(new Person("Иван", "Иванов"));
+        persons.add(new Person("Петр", "Петров"));
+        persons.add(new Person("Даня", "Данилов"));
+    }
+
     public void insert(Person person) {
         persons.add(person);
     }

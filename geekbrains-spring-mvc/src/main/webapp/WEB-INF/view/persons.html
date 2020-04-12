@@ -7,9 +7,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Person list</h1>
+    <a th:href="@{/persons/form}">Форма добавления</a>
+    <h1>Persons list</h1>
     <table>
-
+        <tr th:each="person : ${persons}">
+            <th th:text="*{person.firstName}"></th>
+            <th th:text="*{person.lastName}"></th>
+        </tr>
     </table>
 </body>
 </html>
