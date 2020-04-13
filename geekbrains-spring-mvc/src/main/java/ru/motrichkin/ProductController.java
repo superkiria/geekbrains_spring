@@ -36,14 +36,11 @@ public class ProductController {
     }
 
     @RequestMapping("/id")
-    public String productById(@RequestParam("id") String id, Model model) {
-        Scanner scanner = new Scanner(id);
-        if (scanner.hasNextLong()) {
-            Product product = productRepository.getById(scanner.nextLong());
-            if (product != null) {
-                model.addAttribute("product", product);
-                return "product";
-            }
+    public String productById(@RequestParam("id") Long id, Model model) {
+        Product product = productRepository.getById(id);
+        if (product != null) {
+            model.addAttribute("product", product);
+            return "product";
         }
         return allProducts(model);
     }
