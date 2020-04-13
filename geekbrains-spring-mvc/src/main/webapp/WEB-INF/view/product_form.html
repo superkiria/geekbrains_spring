@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Product form</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <a th:href="@{/}">На главную</a>
 <h1>Форма ввода данных</h1>
-<form th:action="@{/persons/form}" th:object="${person}" method="post">
-    Имя <input type="text" placeholder="Иван" th:field="*{firstName}"><br>
-    Фамилия <input type="text" placeholder="Иванов" th:field="*{lastName}"><br>
+<form th:action="@{/products/form}" th:object="${product}" method="post">
+    Название <input type="text" placeholder="Большой красный халат" th:field="*{title}"><br>
+    Цена  <input type="number" placeholder="345" th:field="*{cost}"><br>
     <button type="submit">Отправить</button>
     <button type="reset">Очистить</button>
     <hr>
