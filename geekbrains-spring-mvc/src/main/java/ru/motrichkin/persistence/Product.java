@@ -1,17 +1,34 @@
 package ru.motrichkin.persistence;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String title;
+
+    @Column
     private Integer cost;
 
-    public Product() {}
+    @OneToMany(
+            mappedBy = "product",
+            cascade = CascadeType.ALL
+    )
+    private List<Position> positionList;
 
-    public Product(Long id, String title, Integer cost) {
-        this.id = id;
+    public Product() {
+    }
+
+    public Product(String title, Integer cost, List<Position> positionList) {
         this.title = title;
         this.cost = cost;
+        this.positionList = positionList;
     }
 
     public Long getId() {
@@ -36,5 +53,22 @@ public class Product {
 
     public void setCost(Integer cost) {
         this.cost = cost;
+    }
+
+    public List<Position> getPositionList() {
+        return positionList;
+    }
+
+    public void setPositionList(List<Position> positionList) {
+        this.positionList = positionList;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", cost=" + cost +
+                '}';
     }
 }
