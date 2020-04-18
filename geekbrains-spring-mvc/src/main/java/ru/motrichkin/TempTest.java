@@ -6,97 +6,92 @@ import ru.motrichkin.persistence.Person;
 import ru.motrichkin.persistence.Position;
 import ru.motrichkin.persistence.Product;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public class TempTest {
+
 
     public static void main(String[] args) {
         EntityManagerFactory factory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .buildSessionFactory();
-
         EntityManager em = factory.createEntityManager();
-
-        List<Person> persons;
-        List<Product> products;
-        List<Position> positions;
-
 //        Person person = new Person("Valeriy", "Kipelov", LocalDate.of(1977, 2, 12), Collections.EMPTY_LIST);
 //        putEntity(em, person);
 //        Product product = new Product("Shure Microphone", 1400, Collections.EMPTY_LIST);
 //        putEntity(em, product);
-
-        putSimpleCustomerOrder(em, 4, 2, 3, 1, 1);
-
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        persons = em.createQuery("from Person").getResultList();
-        persons.forEach(System.out::println);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        products = em.createQuery("from Product").getResultList();
-        products.forEach(System.out::println);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        positions = em.createQuery("from Position").getResultList();
-        positions.forEach(System.out::println);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        List<CustomerOrder> customerOrders = em.createQuery("from CustomerOrder").getResultList();
-        customerOrders.forEach(System.out::println);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-        whatPersonBought(em, 5);
-        whoBoughtTheProduct(em, 3);
-
+//        putSimpleCustomerOrder(em, 7, 9);
+        printAll(em, Person.class);
+        printAll(em, Product.class);
+        printAll(em, CustomerOrder.class);
+        printAll(em, Position.class);
+        System.out.println();
+//        whatPersonHasBought(em, 7);
+//        whoBoughtTheProduct(em, 9);
+        whatPriceWasForWhom(em);
         em.close();
+    }
+
+    public static void printAll(EntityManager em, Class cl) {
+        printResultList(em, "from " + cl.getName());
+    }
+
+    public static void printResultList(EntityManager em, String query) {
+        List results = em.createQuery(query).getResultList();
+        results.forEach(System.out::println);
+    }
+
+    public static void whatPersonHasBought(EntityManager em, Integer personId) {
+        printResultList(em,"from CustomerOrder o where o.person.id = " + personId);
+    }
+
+    public static void whoBoughtTheProduct(EntityManager em, Integer productId) {
+        printResultList(em,"select c.person from CustomerOrder as c, Position as p where p.product.id = " + productId);
+    }
+
+    public static void whatPriceWasForWhom(EntityManager em) {
+        List results = em.createQuery("select c.person, p.price from CustomerOrder as c, Position as p").getResultList();
+        results.forEach(o -> {
+            System.out.println(Arrays.toString((Object[]) o));
+        });
     }
 
     public static void putEntity(EntityManager em, Object object) {
         em.getTransaction().begin();
-
         try {
             em.persist(object);
             em.getTransaction().commit();
         } catch (Exception ex) {
             em.getTransaction().rollback();
+            ex.printStackTrace();
         }
-        System.out.println(object);
-
-        Object persistedObject = em.find(Person.class, 2L);
-        System.out.println(persistedObject);
     }
 
     public static void putSimpleCustomerOrder(EntityManager em, Integer personId, Integer ... productIds) {
-
-        List<Person> persons;
-        List<Product> products;
-        List<Position> positions;
-
-        persons = em.createQuery("from Person p where p.id = " + personId).getResultList();
-        positions = new ArrayList<>();
+        Person person = (Person) em.createQuery("from Person p where p.id = " + personId).getSingleResult();
+        List<Position> positions = new ArrayList<>();
+        CustomerOrder customerOrder = new CustomerOrder(LocalDate.now(), 88, positions, person);
         for(Integer productId : productIds) {
-            products = em.createQuery("from Product p where p.id = " + productId).getResultList();
-            positions.add(new Position(products.get(0), 1, products.get(0).getCost()));
+            Product product = (Product) em.createQuery("from Product p where p.id = " + productId).getSingleResult();
+            positions.add(new Position(customerOrder, product, 1, product.getCost()));
         }
-        CustomerOrder customerOrder = new CustomerOrder(LocalDate.now(), 88, positions, persons.get(0));
+        customerOrder.setPositionList(positions);
         putEntity(em, customerOrder);
+    }
+
+    public static void delete(EntityManager em, Class entity, Long id) {
         em.getTransaction().begin();
+        try {
+            em.remove(em.find(entity, id));
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            em.getTransaction().rollback();
+            ex.printStackTrace();
+        }
     }
-
-    public static void whatPersonBought(EntityManager em, Integer personId) {
-        List<CustomerOrder> customerOrders;
-        customerOrders = em.createQuery("from CustomerOrder o where o.person.id = " + personId).getResultList();
-        customerOrders.forEach(System.out::println);
-    }
-
-    public static void whoBoughtTheProduct(EntityManager em, Integer productId) {
-        List<Person> persons; // пока не работает
-        persons = em.createQuery("select pos.customerOrder.person from Position pos where pos.product.id = " + productId).getResultList();
-        System.out.println(persons.size());
-        persons.forEach(System.out::println);
-    }
-
 }

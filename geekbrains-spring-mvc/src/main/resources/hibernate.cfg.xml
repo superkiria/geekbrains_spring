@@ -13,7 +13,7 @@
 
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.show_sql">false</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.jdbc.batch_size">10</property>
@@ -22,5 +22,6 @@
         <mapping class="ru.motrichkin.persistence.CustomerOrder"/>
         <mapping class="ru.motrichkin.persistence.Position"/>
         <mapping class="ru.motrichkin.persistence.Product"/>
+
     </session-factory>
 </hibernate-configuration>

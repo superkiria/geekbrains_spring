@@ -24,7 +24,8 @@ public class Position {
     public Position() {
     }
 
-    public Position(Product product, Integer amount, Integer price) {
+    public Position(CustomerOrder customerOrder, Product product, Integer amount, Integer price) {
+        this.customerOrder = customerOrder;
         this.product = product;
         this.amount = amount;
         this.price = price;
@@ -74,9 +75,10 @@ public class Position {
     public String toString() {
         return "Position{" +
                 "id=" + id +
-                ", product=" + product +
                 ", amount=" + amount +
                 ", price=" + price +
+                ", product=" + product +
+                ", customerOrder=" + customerOrder +
                 '}';
     }
 }

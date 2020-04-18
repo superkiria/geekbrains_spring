@@ -78,11 +78,11 @@ public class CustomerOrder {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "CustomerOrder{" +
                 "id=" + id +
                 ", date=" + date +
                 ", status=" + status +
-                ", positionList=" + positionList +
+                ", positionList=" + positionList.size() +
                 ", person=" + person +
                 '}';
     }
