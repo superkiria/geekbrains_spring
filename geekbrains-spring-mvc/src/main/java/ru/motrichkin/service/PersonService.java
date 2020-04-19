@@ -7,6 +7,7 @@ import ru.motrichkin.persistence.Person;
 import ru.motrichkin.persistence.PersonRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -20,12 +21,17 @@ public class PersonService {
 
     @Transactional
     public void insert(Person person) {
-        personRepository.insert(person);
+        personRepository.save(person);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Person> getById(Long id) {
+        return personRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
     public List<Person> getAllPersons() {
-        return personRepository.getAllPersons();
+        return personRepository.findAll();
     }
 
 }
