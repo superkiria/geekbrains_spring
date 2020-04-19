@@ -10,6 +10,13 @@
     <a th:href="@{/}">На главную</a><br>
     <a th:href="@{/products/form}">Форма добавления</a>
     <h1>Products list</h1>
+    <p>
+    <form method="get" th:action="@{/products/filter}">
+        <label for="minPrice">Min price</label><input type="number" id="minPrice" name="minPrice">
+        <label for="maxPrice">Max price</label><input type="number" id="maxPrice" name="maxPrice">
+        <button type="submit">Apply</button>
+    </form>
+    </p>
     <table>
         <tr th:each="product : ${products}">
             <th><a th:href="@{/products/id(id=${product.id})}">Страница продукта</a></th>
