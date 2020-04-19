@@ -2,6 +2,8 @@ package ru.motrichkin.persistence;
 
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,20 +11,14 @@ import java.util.List;
 @Repository
 public class PersonRepository {
 
-    private final List<Person> persons = new ArrayList<>();
-
-    public PersonRepository() {
-        persons.add(new Person("Иван", "Иванов"));
-        persons.add(new Person("Петр", "Петров"));
-        persons.add(new Person("Даня", "Данилов"));
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public void insert(Person person) {
-        persons.add(person);
+        entityManager.persist(person);
     }
 
     public List<Person> getAllPersons() {
-        return Collections.unmodifiableList(persons);
+        return entityManager.createQuery("from Person").getResultList();
     }
-
 }

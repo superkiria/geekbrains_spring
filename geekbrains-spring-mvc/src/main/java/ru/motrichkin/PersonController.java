@@ -7,22 +7,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.motrichkin.persistence.Person;
-import ru.motrichkin.persistence.PersonRepository;
+import ru.motrichkin.service.PersonService;
 
 @Controller
 @RequestMapping("/persons")
 public class PersonController {
 
-    private PersonRepository personRepository;
+    private PersonService personService;
 
     @Autowired
-    public PersonController(PersonRepository personRepository) {
-        this.personRepository = personRepository;
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
     @GetMapping
     public String allPersons(Model model) {
-        model.addAttribute("persons", personRepository.getAllPersons());
+        model.addAttribute("persons", personService.getAllPersons());
         return "persons";
     }
 
@@ -34,7 +34,7 @@ public class PersonController {
 
     @PostMapping("/form")
     public String newPerson(Person person) {
-        personRepository.insert(person);
+        personService.insert(person);
         return "redirect:/persons";
     }
 }
