@@ -1,28 +1,19 @@
 package ru.motrichkin.persistence;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.List;
 
 @Repository
-public class ProductRepository {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    private final HashMap<Long, Product> products = new HashMap<>();
-    private AtomicLong id = new AtomicLong(0L);
+    @Query("from Product p where p.cost >= :minPrice")
+    List<Product> filterByPrice(@Param("minPrice") Integer minPrice);
 
-    public void insert(Product product) {
-        product.setId(id.getAndIncrement());
-        products.put(product.getId(), product);
-    }
-
-    public Product getById(Long id) {
-        return products.get(id);
-    }
-
-    public Collection<Product> getAllProducts() {
-        return products.values();
-    }
+    @Query("from Product p where p.cost >= :minPrice and p.cost <= :maxPrice")
+    List<Product> filterByPrice(@Param("minPrice") Integer minPrice, @Param("maxPrice") Integer maxPrice);
 
 }

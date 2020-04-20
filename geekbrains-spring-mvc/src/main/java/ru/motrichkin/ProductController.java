@@ -8,24 +8,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.motrichkin.persistence.Product;
-import ru.motrichkin.persistence.ProductRepository;
+import ru.motrichkin.service.ProductService;
 
-import java.util.Scanner;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/products")
 public class ProductController {
 
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @Autowired
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
-    @GetMapping
+    @GetMapping("/filter")
+    public String allProducts(@RequestParam("minPrice") Integer minPrice,
+                              @RequestParam("maxPrice") Integer maxPrice,
+                              Model model) {
+        if (minPrice == null) {
+            minPrice = 0;
+        }
+        if (maxPrice == null) {
+            model.addAttribute("products", productService.getAllProducts(minPrice));
+        } else {
+            model.addAttribute("products", productService.getAllProducts(minPrice, maxPrice));
+        }
+        return "products";
+    }
+
+    @GetMapping()
     public String allProducts(Model model) {
-        model.addAttribute("products", productRepository.getAllProducts());
+        model.addAttribute("products", productService.getAllProducts());
         return "products";
     }
 
@@ -37,17 +52,17 @@ public class ProductController {
 
     @RequestMapping("/id")
     public String productById(@RequestParam("id") Long id, Model model) {
-        Product product = productRepository.getById(id);
-        if (product != null) {
-            model.addAttribute("product", product);
+        Optional<Product> product = productService.getById(id);
+        if (product.isPresent()) {
+            model.addAttribute("product", product.get());
             return "product";
         }
-        return allProducts(model);
+        return "products";
     }
 
     @PostMapping("/form")
     public String newProduct(Product product) {
-        productRepository.insert(product);
+        productService.insert(product);
         return "redirect:/products";
     }
 
