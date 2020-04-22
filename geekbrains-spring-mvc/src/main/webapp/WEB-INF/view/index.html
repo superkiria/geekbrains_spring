@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <a th:href="@{/}">На главную</a>
+    <nav th:replace="fragments/navbar.html"/>
     <form action="">
         <!--/*@thymesVar id="helloText" type="ru.motrichkin.WelcomeController"*/-->
         <h1 th:text="${helloText}"></h1>
@@ -17,8 +17,7 @@
             <li><a th:href="@{/products}">Список товаров</a></li>
             <li><a th:href="@{/products/form}">Добавить товар</a></li>
         </ul>
-        <hr>
-        &copy; Все права защищены.
+        <nav th:replace="fragments/footer.html"/>
     </form>
 </body>
 </html>

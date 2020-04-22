@@ -1,5 +1,7 @@
 package ru.motrichkin.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.motrichkin.persistence.Product;
@@ -33,12 +35,12 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public List<Product> getAllProducts(Integer minPrice, Integer maxPrice) {
-        return productRepository.filterByPrice(minPrice, maxPrice);
+    public Page<Product> getAllProducts(Integer minPrice, Integer maxPrice, Pageable pageable) {
+        return productRepository.findAllByCostBetween(minPrice, maxPrice, pageable);
     }
 
     @Transactional(readOnly = true)
-    public List<Product> getAllProducts(Integer minPrice) {
-        return productRepository.filterByPrice(minPrice);
+    public Page<Product> getAllProducts(Integer minPrice, Pageable pageable) {
+        return productRepository.findAllByCostGreaterThanEqual(minPrice, pageable);
     }
 }
