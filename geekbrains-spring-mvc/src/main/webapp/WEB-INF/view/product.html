@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <a th:href="@{/}">На главную</a><br>
-    <a th:href="@{/products}">Список продуктов</a><br>
-    <a th:href="@{/products/form}">Форма добавления</a>
+    <nav th:replace="fragments/navbar.html"/>
     <h1>Страница продукта</h1>
     <table>
         <tr>
@@ -18,5 +16,7 @@
             <th th:text="*{product.cost}"></th>
         </tr>
     </table>
+    <a th:href="@{/products/{id}(id = ${product.id})}">Редактировать</a>
+    <nav th:replace="fragments/footer.html"/>
 </body>
 </html>

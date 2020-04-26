@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <a th:href="@{/}">На главную</a><br>
-    <a th:href="@{/persons/form}">Форма добавления</a>
+    <nav th:replace="fragments/navbar.html"/>
     <h1>Persons list</h1>
     <table>
         <tr th:each="person : ${persons}">
@@ -16,5 +15,6 @@
             <th th:text="*{person.lastName}"></th>
         </tr>
     </table>
+    <nav th:replace="fragments/footer.html"/>
 </body>
 </html>

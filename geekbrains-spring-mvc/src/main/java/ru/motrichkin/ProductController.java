@@ -1,12 +1,10 @@
 package ru.motrichkin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.motrichkin.persistence.Product;
 import ru.motrichkin.service.ProductService;
 
@@ -26,21 +24,39 @@ public class ProductController {
     @GetMapping("/filter")
     public String allProducts(@RequestParam("minPrice") Integer minPrice,
                               @RequestParam("maxPrice") Integer maxPrice,
+                              @RequestParam("page") Integer page,
+                              @RequestParam("size") Integer size,
                               Model model) {
+
         if (minPrice == null) {
             minPrice = 0;
         }
-        if (maxPrice == null) {
-            model.addAttribute("products", productService.getAllProducts(minPrice));
-        } else {
-            model.addAttribute("products", productService.getAllProducts(minPrice, maxPrice));
+        if (page == null) {
+            page = 1;
         }
+        if (size == null) {
+            size = 5;
+        }
+        if (maxPrice == null) {
+            model.addAttribute("products", productService.getAllProducts(minPrice, PageRequest.of(page - 1, size)));
+        } else {
+            model.addAttribute("products", productService.getAllProducts(minPrice, maxPrice, PageRequest.of(page - 1, size)));
+        }
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
+        model.addAttribute("activePage", "Список товаров");
         return "products";
     }
 
     @GetMapping()
     public String allProducts(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("products", productService.getAllProducts(0, PageRequest.of(0, 5)));
+        model.addAttribute("minPrice", 0);
+        model.addAttribute("maxPrice", null);
+        model.addAttribute("page", 1);
+        model.addAttribute("size", 5);
         return "products";
     }
 
@@ -58,6 +74,12 @@ public class ProductController {
             return "product";
         }
         return "products";
+    }
+
+    @GetMapping("/{id}")
+    public String editProduct(@PathVariable(value = "id") Long id, Model model) {
+        model.addAttribute("product", productService.getById(id));
+        return "product_form";
     }
 
     @PostMapping("/form")

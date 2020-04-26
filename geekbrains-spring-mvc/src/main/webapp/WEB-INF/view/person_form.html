@@ -7,15 +7,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<a th:href="@{/}">На главную</a>
+<nav th:replace="fragments/navbar.html"/>
 <h1>Форма ввода данных</h1>
 <form th:action="@{/persons/form}" th:object="${person}" method="post">
     Имя <input type="text" placeholder="Иван" th:field="*{firstName}"><br>
     Фамилия <input type="text" placeholder="Иванов" th:field="*{lastName}"><br>
     <button type="submit">Отправить</button>
     <button type="reset">Очистить</button>
-    <hr>
-    &copy; Все права защищены.
+    <nav th:replace="fragments/footer.html"/>
 </form>
 </body>
 </html>
