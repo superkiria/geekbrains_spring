@@ -8,12 +8,19 @@
         <outputRelativeToContentRoot value="true" />
         <module name="geekbrains-spring-servlet" />
         <module name="geekbrains-spring-mvc" />
+        <module name="geekbrains-spring-boot" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="geekbrains-spring-boot" target="1.8" />
       <module name="geekbrains-spring-mvc" target="1.8" />
       <module name="geekbrains-spring-servlet" target="1.8" />
       <module name="geekbrains_spring" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="geekbrains-spring-boot" options="-parameters" />
+    </option>
   </component>
 </project>

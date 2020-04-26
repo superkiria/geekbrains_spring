@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav th:replace="fragments/navbar.html"/>
+<h1>Форма ввода данных</h1>
+<form th:action="@{/persons/form}" th:object="${person}" method="post">
+    Имя <input type="text" placeholder="Иван" th:field="*{firstName}"><br>
+    Фамилия <input type="text" placeholder="Иванов" th:field="*{lastName}"><br>
+    <button type="submit">Отправить</button>
+    <button type="reset">Очистить</button>
+    <nav th:replace="fragments/footer.html"/>
+</form>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+</head>
+<body>
+    <nav th:replace="fragments/navbar.html"/>
+    <h1>Products list</h1>
+    <form method="get" th:action="@{/products/filter}">
+        <input type="hidden" id="page" name="page" value="1">
+        <input type="hidden" id="size" name="size" value="5">
+        <label for="minPrice">Min price</label><input type="number" id="minPrice" name="minPrice"><br>
+        <label for="maxPrice">Max price</label><input type="number" id="maxPrice" name="maxPrice"><br>
+        <button type="submit">Apply</button>
+    </form>
+    <b th:unless="${products.hasContent()}">Не найдено ни одной записи</b>
+    <table th:if="${products.hasContent()}">
+        <tr>
+            <th>Ссылки на страницы товара</th>
+            <th>Идентификатор</th>
+            <th>Название</th>
+            <th>Цена</th>
+        </tr>
+        <tr th:each="product : ${products.content}">
+            <th><a th:href="@{/products/id(id=${product.id})}">Страница продукта</a></th>
+            <th th:text="*{product.id}"></th>
+            <th th:text="*{product.title}"></th>
+            <th th:text="*{product.cost}"></th>
+        </tr>
+    </table>
+    <div th:if="${products.hasContent()}" class="pagination">
+        <a th:href="@{/products/filter(page=${1}, size=${products.size}, minPrice=${minPrice}, maxPrice=${maxPrice})}">&laquo;</a>
+
+        <a th:each="num: ${#numbers.sequence(1, products.totalPages)}"
+           th:classappend="${num == products.number + 1} ? 'active'"
+           th:href="@{/products/filter(page=${num}, size=${products.size}, minPrice=${minPrice}, maxPrice=${maxPrice})}">[[${num}]]</a>
+        <a th:href="@{/products/filter(page=${products.totalPages}, size=${products.size}, minPrice=${minPrice}, maxPrice=${maxPrice})}">&raquo;</a>
+    </div>
+    <nav th:replace="fragments/footer.html"/>
+</body>
+</html>

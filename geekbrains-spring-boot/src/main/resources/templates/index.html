@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav th:replace="fragments/navbar.html"/>
+    <form action="">
+        <!--/*@thymesVar id="helloText" type="ru.motrichkin.WelcomeController"*/-->
+        <h1 th:text="${helloText}"></h1>
+        <ul>
+            <li><a th:href="@{/persons}">Список персон</a></li>
+            <li><a th:href="@{/persons/form}">Добавить персону</a></li>
+            <li><a th:href="@{/products}">Список товаров</a></li>
+            <li><a th:href="@{/products/form}">Добавить товар</a></li>
+        </ul>
+        <nav th:replace="fragments/footer.html"/>
+    </form>
+</body>
+</html>
