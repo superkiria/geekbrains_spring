@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav th:replace="fragments/navbar.html"/>
+    <h1>Страница продукта</h1>
+    <table>
+        <tr>
+            <th th:text="*{product.id}"></th>
+            <th th:text="*{product.title}"></th>
+            <th th:text="*{product.cost}"></th>
+        </tr>
+    </table>
+    <a th:href="@{/products/{id}(id = ${product.id})}">Редактировать</a>
+    <nav th:replace="fragments/footer.html"/>
+</body>
+</html>
