@@ -8,31 +8,31 @@ spring:
       context-path: /app
     port: 8080
 
-  datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.1.74:3306/mvc_boot?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: root
-    continueOnError: true
-    initialize: false
-    initialSize: 0
-    timeBetweenEvictionRunsMillis: 5000
-    minEvictableIdleTimeMillis: 5000
-    minIdle: 0
+#  datasource:
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://192.168.1.74:3306/mvc_boot?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#    username: root
+#    password: root
+#    continueOnError: true
+#    initialize: true
+#    initialSize: 0
+#    timeBetweenEvictionRunsMillis: 5000
+#    minEvictableIdleTimeMillis: 5000
+#    minIdle: 0
 
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
-      naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
-    properties:
-      hibernate:
-        format_sql : true
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        hbm2ddl:
-          auto: none
-        temp:
-          use_jdbc_metadata_defaults: false
+#      naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
+#    properties:
+#      hibernate:
+#        format_sql : true
+#        dialect: org.hibernate.dialect.MySQL8Dialect
+#        hbm2ddl:
+#          auto: none
+#        temp:
+#          use_jdbc_metadata_defaults: false
 
   logging:
     level:
