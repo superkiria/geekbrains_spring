@@ -30,7 +30,7 @@ public class ProductResource {
     @GetMapping(path = "/{id}", produces = "application/json")
     public Product getById(@PathVariable("id") long id) {
         Optional<Product> optionalProduct = productService.getById(id);
-        return optionalProduct.orElseThrow(new NotFoundException("No product with id: " + id));
+        return optionalProduct.orElseThrow(() -> new NotFoundException("No product with id: " + id));
     }
 
     @PostMapping()
