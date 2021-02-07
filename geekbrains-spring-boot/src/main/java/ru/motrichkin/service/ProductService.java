@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.motrichkin.persistence.Product;
 import ru.motrichkin.persistence.ProductRepository;
+import ru.motrichkin.exceptions.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,15 @@ public class ProductService {
     @Transactional
     public void insert(Product product) {
         productRepository.save(product);
+    }
+
+    @Transactional
+    public void update(Product product) {
+        if (getById(product.getId()).isPresent()) {
+            productRepository.save(product);
+        } else {
+            throw new IllegalArgumentException("No product with such ID: " + product.getId());
+        }
     }
 
     @Transactional(readOnly = true)
