@@ -63,6 +63,12 @@ public class Product {
         this.positionList = positionList;
     }
 
+    public void checkValidBusinessData() {
+        if (getCost() <= 0) {
+            throw new IllegalArgumentException("The cost should be above zero: " + getCost());
+        }
+    }
+
     @Override
     public String toString() {
         return "Product{" +
