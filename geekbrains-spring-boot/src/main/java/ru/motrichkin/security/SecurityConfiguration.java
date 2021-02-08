@@ -7,19 +7,23 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfiguration {
 
     @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
     public void authConfigure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.inMemoryAuthentication()
                 .withUser("user")
-                .password("{noop}password")
+                .password(passwordEncoder.encode("password"))
                 .roles("USER")
                 .and()
                 .withUser("admin")
-                .password("{noop}password")
+                .password(passwordEncoder.encode("password"))
                 .roles("ADMIN");
     }
 
