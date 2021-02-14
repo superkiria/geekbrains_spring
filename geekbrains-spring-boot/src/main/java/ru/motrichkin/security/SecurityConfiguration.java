@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration {
 
     @Autowired
@@ -22,14 +24,6 @@ public class SecurityConfiguration {
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
         authenticationManagerBuilder.authenticationProvider(provider);
-//        authenticationManagerBuilder.inMemoryAuthentication()
-//                .withUser("user")
-//                .password(passwordEncoder.encode("password"))
-//                .roles("USER")
-//                .and()
-//                .withUser("admin")
-//                .password(passwordEncoder.encode("password"))
-//                .roles("ADMIN");
     }
 
     @Configuration
@@ -56,12 +50,17 @@ public class SecurityConfiguration {
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
                     .antMatchers("/resources/*").permitAll()
-                    .antMatchers("/user/*").permitAll()
-                    .antMatchers("/**").authenticated()
-                    .anyRequest()
-                    .authenticated()
+                    .antMatchers("/user").hasRole("ADMIN")
+                    .antMatchers("/user/*").hasRole("ADMIN")
+                    .antMatchers("/**").permitAll()
+                    .antMatchers("/h2-console/**").hasRole("ADMIN")
+                    .anyRequest().authenticated()
                     .and()
                     .formLogin();
+            /* для работы h2-консоли */
+            http.csrf().disable();
+            http.headers().frameOptions().disable();
+            /* end of для работы h2-консоли */
         }
 
     }

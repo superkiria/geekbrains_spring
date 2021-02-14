@@ -1,6 +1,7 @@
 package ru.motrichkin.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.motrichkin.persistence.Person;
@@ -20,6 +21,7 @@ public class PersonService {
     }
 
     @Transactional
+    @Secured({"ROLE_ADMIN"})
     public void insert(Person person) {
         personRepository.save(person);
     }
