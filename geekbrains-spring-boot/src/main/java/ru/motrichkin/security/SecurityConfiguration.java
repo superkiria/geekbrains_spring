@@ -56,7 +56,10 @@ public class SecurityConfiguration {
                     .antMatchers("/h2-console/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                     .and()
-                    .formLogin();
+                    .formLogin()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/");
+
             /* для работы h2-консоли */
             http.csrf().disable();
             http.headers().frameOptions().disable();
