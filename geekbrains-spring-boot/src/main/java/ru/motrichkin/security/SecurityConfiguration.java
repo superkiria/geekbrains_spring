@@ -39,12 +39,14 @@ public class SecurityConfiguration {
                     .and()
                     .httpBasic();
         }
-
     }
 
     @Configuration
     @Order(2)
     public static class UiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+
+        @Autowired
+        private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
@@ -58,14 +60,14 @@ public class SecurityConfiguration {
                     .and()
                     .formLogin()
                     .loginPage("/login")
-                    .defaultSuccessUrl("/");
+                    .defaultSuccessUrl("/")
+                    .successHandler(customAuthenticationSuccessHandler);
 
             /* для работы h2-консоли */
             http.csrf().disable();
             http.headers().frameOptions().disable();
             /* end of для работы h2-консоли */
         }
-
     }
 
 }

@@ -45,6 +45,10 @@ public class UserService {
                 .map(UserRepresentation::new);
     }
 
+    public Optional<UserRepresentation> findByUserName(String username) {
+        return userRepository.findUserByUsername(username).map(UserRepresentation::new);
+    }
+
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
