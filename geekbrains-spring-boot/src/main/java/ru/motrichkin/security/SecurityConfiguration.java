@@ -62,6 +62,7 @@ public class SecurityConfiguration {
                     .loginPage("/login")
                     .defaultSuccessUrl("/")
                     .successHandler(customAuthenticationSuccessHandler);
+//                    .failureHandler();
 
             /* для работы h2-консоли */
             http.csrf().disable();
