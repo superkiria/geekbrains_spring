@@ -7,9 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="geekbrains-spring-boot" />
-        <module name="service-jwt" />
         <module name="geekbrains-spring-servlet" />
         <module name="geekbrains-spring-mvc" />
+        <module name="jwt-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -18,13 +18,12 @@
       <module name="geekbrains-spring-servlet" target="1.8" />
       <module name="geekbrains_spring" target="1.8" />
       <module name="jwt-service" target="8" />
-      <module name="service-jwt" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="geekbrains-spring-boot" options="-parameters" />
-      <module name="service-jwt" options="-parameters" />
+      <module name="jwt-service" options="-parameters" />
     </option>
   </component>
 </project>

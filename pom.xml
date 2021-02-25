@@ -12,7 +12,7 @@
         <module>geekbrains-spring-servlet</module>
         <module>geekbrains-spring-mvc</module>
         <module>geekbrains-spring-boot</module>
-        <module>service-jwt</module>
+        <module>jwt-service</module>
     </modules>
 
     <properties>

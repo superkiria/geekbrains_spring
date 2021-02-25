@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.motrichkin</groupId>
-    <artifactId>service-jwt</artifactId>
+    <artifactId>jwt-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>service-jwt</name>
+    <name>jwt-service</name>
     <description>Demo project for Spring Boot JWT service</description>
 
     <properties>
