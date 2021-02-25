@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/geekbrains-spring-boot/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/geekbrains-spring-mvc/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/geekbrains-spring-mvc/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-jwt/src/main/java" charset="UTF-8" />
   </component>
 </project>
