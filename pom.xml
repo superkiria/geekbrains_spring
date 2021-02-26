@@ -13,6 +13,8 @@
         <module>geekbrains-spring-mvc</module>
         <module>geekbrains-spring-boot</module>
         <module>jwt-service</module>
+        <module>jwt-client</module>
+        <module>jwt-shared</module>
     </modules>
 
     <properties>

@@ -10,10 +10,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.motrichkin</groupId>
-    <artifactId>jwt-service</artifactId>
+    <artifactId>jwt-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>jwt-service</name>
-    <description>Demo project for Spring Boot JWT service</description>
+    <name>jwt-client</name>
+    <description>Demo project for Spring Boot JWT client</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -49,11 +49,11 @@
             <artifactId>commons-dbcp</artifactId>
             <version>1.2.2</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.postgresql</groupId>-->
-<!--            <artifactId>postgresql</artifactId>-->
-<!--            <version>9.4-1205-jdbc42</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.postgresql</groupId>-->
+        <!--            <artifactId>postgresql</artifactId>-->
+        <!--            <version>9.4-1205-jdbc42</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
