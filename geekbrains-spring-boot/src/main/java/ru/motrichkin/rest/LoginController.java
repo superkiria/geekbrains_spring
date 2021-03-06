@@ -1,4 +1,4 @@
-package ru.motrichkin;
+package ru.motrichkin.rest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

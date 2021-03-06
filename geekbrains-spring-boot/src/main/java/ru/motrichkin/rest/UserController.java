@@ -1,4 +1,4 @@
-package ru.motrichkin;
+package ru.motrichkin.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

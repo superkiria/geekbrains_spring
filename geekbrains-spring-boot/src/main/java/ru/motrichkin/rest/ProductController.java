@@ -1,7 +1,8 @@
-package ru.motrichkin;
+package ru.motrichkin.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,26 +23,19 @@ public class ProductController {
     }
 
     @GetMapping("/filter")
-    public String allProducts(@RequestParam("minPrice") Integer minPrice,
-                              @RequestParam("maxPrice") Integer maxPrice,
+    public String allProducts(@RequestParam("minPrice") final Integer minPrice,
+                              @RequestParam("maxPrice") final Integer maxPrice,
                               @RequestParam("page") Integer page,
                               @RequestParam("size") Integer size,
                               Model model) {
 
-        if (minPrice == null) {
-            minPrice = 0;
-        }
-        if (page == null) {
-            page = 1;
-        }
-        if (size == null) {
-            size = 5;
-        }
-        if (maxPrice == null) {
-            model.addAttribute("products", productService.getAllProducts(minPrice, PageRequest.of(page - 1, size)));
-        } else {
-            model.addAttribute("products", productService.getAllProducts(minPrice, maxPrice, PageRequest.of(page - 1, size)));
-        }
+        Specification<Product> productSpecification =
+                (root, criteriaQuery, criteriaBuilder)
+                        -> criteriaBuilder.between(root.get("cost"),
+                                                   Optional.of(minPrice).orElse(0),
+                                                   Optional.of(maxPrice).orElse(Integer.MAX_VALUE));
+
+        model.addAttribute("products", productService.getAllProducts(productSpecification, PageRequest.of(page - 1, size)));
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
         model.addAttribute("page", page);
