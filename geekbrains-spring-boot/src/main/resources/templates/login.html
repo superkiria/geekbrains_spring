@@ -10,7 +10,11 @@
 <nav th:replace="fragments/navbar.html :: navbar"/>
 
 <h1>Login</h1>
-<p th:if="${!param.isEmpty()}">Попробуйте ещё раз</p>
+<p th:if="*{param.error}">Попробуйте ещё раз</p>
+<tr th:each="instance : ${param}">
+    <td th:text="${instance.key}">keyvalue</td>
+</tr>
+
 <form th:action="@{/login}" th:object="${user}" method="post">
     <input th:type="hidden" th:field="*{id}">
     <p>Username:</p>
