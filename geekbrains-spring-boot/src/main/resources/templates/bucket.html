@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucket</title>
+</head>
+<body>
+<nav th:replace="fragments/navbar.html"/>
+<h1>Your bucket</h1>
+
+<p th:text="*{count}"></p>
+
+<b th:unless="${products.hasContent()}">Не найдено ни одной записи</b>
+<table th:if="${products.hasContent()}">
+    <tr>
+        <th>Ссылки на страницы товара</th>
+        <th>Идентификатор</th>
+        <th>Название</th>
+        <th>Цена</th>
+    </tr>
+    <tr th:each="product : ${products.content}">
+        <th><a th:href="@{/products/id(id=${product.id})}">Страница продукта</a></th>
+        <th th:text="*{product.id}"></th>
+        <th th:text="*{product.title}"></th>
+        <th th:text="*{product.cost}"></th>
+    </tr>
+</table>
+
+<nav th:replace="fragments/footer.html"/>
+</body>
+</html>

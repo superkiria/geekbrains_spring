@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.motrichkin.persistence.Product;
 import ru.motrichkin.service.ProductService;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.Optional;
 
 @Controller
@@ -34,8 +30,10 @@ public class ProductController {
                               Model model) {
 
         Specification<Product> productSpecification =
-                (Specification<Product>) (root, criteriaQuery, criteriaBuilder)
-                        -> criteriaBuilder.between(root.get("cost"), minPrice != null ? minPrice : 0, maxPrice != null ? maxPrice : Integer.MAX_VALUE);
+                (root, criteriaQuery, criteriaBuilder)
+                        -> criteriaBuilder.between(root.get("cost"),
+                                                   Optional.of(minPrice).orElse(0),
+                                                   Optional.of(maxPrice).orElse(Integer.MAX_VALUE));
 
         model.addAttribute("products", productService.getAllProducts(productSpecification, PageRequest.of(page - 1, size)));
         model.addAttribute("minPrice", minPrice);
