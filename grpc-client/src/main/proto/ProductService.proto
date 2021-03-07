@@ -1,0 +1,30 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package ru.motrichkin.grpc;
+
+message ManyProductsRequest {
+
+}
+
+message ProductByIdRequest {
+  int64 id = 1;
+}
+
+message ProductGrpc {
+  int64 id = 1;
+  string title = 2;
+  int32 cost = 3;
+}
+
+message ProductResponse {
+  ProductGrpc product = 1;
+}
+
+message ManyProductsResponse {
+  repeated ProductGrpc product = 1;
+}
+
+service ProductService {
+  rpc getAllProducts(ManyProductsRequest) returns (ManyProductsResponse) {};
+  rpc getProductById(ProductByIdRequest) returns (ProductResponse) {};
+}
