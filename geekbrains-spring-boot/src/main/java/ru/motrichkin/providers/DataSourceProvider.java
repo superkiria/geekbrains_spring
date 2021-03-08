@@ -12,17 +12,17 @@ import org.sql2o.Sql2o;
 import javax.sql.DataSource;
 
 @Configuration
-public class DataSourceProvider implements TransactionManagementConfigurer {
+public class DataSourceProvider /*implements TransactionManagementConfigurer*/ {
 
     @Autowired
     private DataSource dataSource;
 
-    @Bean
-    @Override
-    @NonNull
-    public TransactionManager annotationDrivenTransactionManager() {
-        return new DataSourceTransactionManager(dataSource);
-    }
+//    @Bean
+//    @Override
+//    @NonNull
+//    public TransactionManager annotationDrivenTransactionManager() {
+//        return new DataSourceTransactionManager(dataSource);
+//    }
 
     @Bean
     public Sql2o sql2o() {

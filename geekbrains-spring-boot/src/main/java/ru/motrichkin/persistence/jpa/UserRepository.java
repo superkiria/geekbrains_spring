@@ -1,6 +1,7 @@
-package ru.motrichkin.persistence;
+package ru.motrichkin.persistence.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import ru.motrichkin.persistence.User;
 
 import java.util.Optional;
 

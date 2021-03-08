@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.motrichkin.grpc.ProductGrpcServer;
-import ru.motrichkin.persistence.Product2Repository;
-import ru.motrichkin.persistence.ProductDto;
+import ru.motrichkin.persistence.Product;
+import ru.motrichkin.persistence.sql2o.ProductRepositorySql20Impl;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,11 +29,11 @@ public class GeekbrainsSpringBootApplication implements CommandLineRunner {
     }
 
     @Autowired
-    private Product2Repository product2Repository;
+    private ProductRepositorySql20Impl productRepositorySql20Impl;
 
     @Override
     public void run(String... args) throws Exception {
-        List<ProductDto> result = product2Repository.findAll();
+        List<Product> result = productRepositorySql20Impl.findAll();
         result.forEach(System.out::println);
         System.out.println();
     }

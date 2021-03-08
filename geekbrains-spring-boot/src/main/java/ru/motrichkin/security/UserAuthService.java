@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.motrichkin.persistence.UserRepository;
+import ru.motrichkin.persistence.jpa.UserRepository;
 
 import java.util.stream.Collectors;
 
