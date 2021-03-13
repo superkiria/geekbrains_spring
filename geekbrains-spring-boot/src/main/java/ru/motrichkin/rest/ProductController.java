@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.motrichkin.persistence.Product;
+import ru.motrichkin.persistence.ProductSpecification;
 import ru.motrichkin.service.ProductService;
 
 import java.util.Optional;
@@ -29,11 +30,8 @@ public class ProductController {
                               @RequestParam("size") Integer size,
                               Model model) {
 
-        Specification<Product> productSpecification =
-                (root, criteriaQuery, criteriaBuilder)
-                        -> criteriaBuilder.between(root.get("cost"),
-                                                   Optional.ofNullable(minPrice).orElse(0),
-                                                   Optional.ofNullable(maxPrice).orElse(Integer.MAX_VALUE));
+        ProductSpecification productSpecification =
+                ProductSpecification.newBuilder().setMinPrice(minPrice).setMaxPrice(maxPrice).build();
 
         model.addAttribute("products", productService.getAllProducts(productSpecification, PageRequest.of(page - 1, size)));
         model.addAttribute("minPrice", minPrice);

@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.motrichkin.grpc.ProductGrpcServer;
 import ru.motrichkin.persistence.Product;
-import ru.motrichkin.persistence.sql2o.ProductRepositorySql2OImpl;
+import ru.motrichkin.persistence.sql2o.ProductRepositorySql2oImpl;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +29,7 @@ public class GeekbrainsSpringBootApplication implements CommandLineRunner {
     }
 
     @Autowired
-    private ProductRepositorySql2OImpl productRepositorySql20Impl;
+    private ProductRepositorySql2oImpl productRepositorySql20Impl;
 
     @Override
     public void run(String... args) throws Exception {

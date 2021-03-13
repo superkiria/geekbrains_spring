@@ -3,10 +3,10 @@ package ru.motrichkin.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.motrichkin.persistence.Product;
+import ru.motrichkin.persistence.ProductSpecification;
 import ru.motrichkin.persistence.interfaces.ProductRepository;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Product> getAllProducts(Specification<Product> productSpecification, Pageable pageable) {
+    public Page<Product> getAllProducts(ProductSpecification productSpecification, Pageable pageable) {
         return productRepository.findAll(productSpecification, pageable);
     }
 
