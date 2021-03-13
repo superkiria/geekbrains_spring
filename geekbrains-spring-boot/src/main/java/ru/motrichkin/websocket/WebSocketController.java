@@ -1,5 +1,6 @@
-package ru.motrichkin.rest;
+package ru.motrichkin.websocket;
 
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import ru.motrichkin.websocket.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -8,8 +9,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 public class WebSocketController {
     @MessageMapping("/productAddedToBucket")
     @SendTo("/topic/productAddedToBucketSuccess")
-    public Message getMessage() throws InterruptedException {
+    public OutputMessage getMessage(Message message) throws InterruptedException {
         Thread.sleep(3000);
-        return new Message("Товар добавлен в корзину");
+        return new OutputMessage("Товар добавлен в корзину");
     }
 }
