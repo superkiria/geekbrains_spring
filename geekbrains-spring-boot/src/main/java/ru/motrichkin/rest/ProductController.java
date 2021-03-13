@@ -2,7 +2,6 @@ package ru.motrichkin.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +15,7 @@ import java.util.Optional;
 @RequestMapping("/products")
 public class ProductController {
 
+    private static final Integer DEFAULT_SIZE = 1000;
     private final ProductService productService;
 
     @Autowired
@@ -24,42 +24,42 @@ public class ProductController {
     }
 
     @GetMapping("/filter")
-    public String allProducts(@RequestParam("minPrice") final Integer minPrice,
+    public String getAllProducts(@RequestParam("minPrice") final Integer minPrice,
                               @RequestParam("maxPrice") final Integer maxPrice,
                               @RequestParam("page") Integer page,
                               @RequestParam("size") Integer size,
                               Model model) {
-
+        Integer correctedSize = size > 0 ? size : DEFAULT_SIZE;
         ProductSpecification productSpecification =
                 ProductSpecification.newBuilder().setMinPrice(minPrice).setMaxPrice(maxPrice).build();
 
-        model.addAttribute("products", productService.getAllProducts(productSpecification, PageRequest.of(page - 1, size)));
+        model.addAttribute("products", productService.getAllProducts(productSpecification, PageRequest.of(page - 1, correctedSize)));
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
         model.addAttribute("page", page);
-        model.addAttribute("size", size);
+        model.addAttribute("size", correctedSize);
         model.addAttribute("activePage", "Список товаров");
         return "products";
     }
 
     @GetMapping()
-    public String allProducts(Model model) {
-        model.addAttribute("products", productService.getAllProducts(PageRequest.of(0, 5)));
+    public String getAllProducts(Model model) {
+        model.addAttribute("products", productService.getAllProducts(PageRequest.of(0, 1000)));
         model.addAttribute("minPrice", 0);
         model.addAttribute("maxPrice", null);
         model.addAttribute("page", 1);
-        model.addAttribute("size", 5);
+        model.addAttribute("size", DEFAULT_SIZE);
         return "products";
     }
 
     @GetMapping("/form")
-    public String formProduct(Model model) {
+    public String getFormProduct(Model model) {
         model.addAttribute("product", new Product());
         return "product_form";
     }
 
     @RequestMapping("/id")
-    public String productById(@RequestParam("id") Long id, Model model) {
+    public String getProductById(@RequestParam("id") Long id, Model model) {
         Optional<Product> product = productService.getById(id);
         if (product.isPresent()) {
             model.addAttribute("product", product.get());

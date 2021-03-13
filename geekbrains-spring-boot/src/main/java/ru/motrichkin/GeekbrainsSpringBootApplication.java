@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.motrichkin.grpc.ProductGrpcServer;
@@ -15,6 +16,7 @@ import ru.motrichkin.persistence.sql2o.ProductRepositorySql2oImpl;
 import java.io.IOException;
 import java.util.List;
 
+@EnableAspectJAutoProxy
 @SpringBootApplication
 public class GeekbrainsSpringBootApplication implements CommandLineRunner {
 

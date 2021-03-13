@@ -10,12 +10,14 @@ import ru.motrichkin.service.ProductService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @RequestMapping("api/v1/product")
 @RestController
 public class ProductResourceController {
 
     private final ProductService productService;
+    private final static Random random = new Random();
 
     @Autowired
     public ProductResourceController(ProductService productService) {
@@ -69,5 +71,19 @@ public class ProductResourceController {
                 , HttpStatus.BAD_REQUEST);
     }
 
+    @PostMapping("/generateProducts")
+    public String generateProducts(@RequestParam(value = "amount") int amount) {
+        for (int i = 0; i < amount; i++) {
+            productService.insert(generateRandomProduct());
+        }
+        return "redirect:/products";
+    }
+
+    private static Product generateRandomProduct() {
+        Product product = new Product();
+        product.setTitle("Product number " + random.nextLong());
+        product.setCost(random.nextInt(100000));
+        return product;
+    }
 
 }

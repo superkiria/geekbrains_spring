@@ -33,11 +33,13 @@ public class SecurityConfiguration {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/api/**")
+                    .csrf().disable()
                     .authorizeRequests()
                     .anyRequest()
                     .hasRole("ADMIN")
                     .and()
-                    .httpBasic();
+                    .httpBasic()
+                    .and().sessionManagement().disable();
         }
     }
 
