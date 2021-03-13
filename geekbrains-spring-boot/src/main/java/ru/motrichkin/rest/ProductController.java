@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.motrichkin.persistence.Product;
+import ru.motrichkin.persistence.ProductSpecification;
 import ru.motrichkin.service.ProductService;
 
 import java.util.Optional;
@@ -15,7 +16,7 @@ import java.util.Optional;
 @RequestMapping("/products")
 public class ProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -29,11 +30,8 @@ public class ProductController {
                               @RequestParam("size") Integer size,
                               Model model) {
 
-        Specification<Product> productSpecification =
-                (root, criteriaQuery, criteriaBuilder)
-                        -> criteriaBuilder.between(root.get("cost"),
-                                                   Optional.of(minPrice).orElse(0),
-                                                   Optional.of(maxPrice).orElse(Integer.MAX_VALUE));
+        ProductSpecification productSpecification =
+                ProductSpecification.newBuilder().setMinPrice(minPrice).setMaxPrice(maxPrice).build();
 
         model.addAttribute("products", productService.getAllProducts(productSpecification, PageRequest.of(page - 1, size)));
         model.addAttribute("minPrice", minPrice);
@@ -46,7 +44,7 @@ public class ProductController {
 
     @GetMapping()
     public String allProducts(Model model) {
-        model.addAttribute("products", productService.getAllProducts(0, PageRequest.of(0, 5)));
+        model.addAttribute("products", productService.getAllProducts(PageRequest.of(0, 5)));
         model.addAttribute("minPrice", 0);
         model.addAttribute("maxPrice", null);
         model.addAttribute("page", 1);

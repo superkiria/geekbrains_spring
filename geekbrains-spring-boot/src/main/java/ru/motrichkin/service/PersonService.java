@@ -5,7 +5,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.motrichkin.persistence.Person;
-import ru.motrichkin.persistence.PersonRepository;
+import ru.motrichkin.persistence.jpa.PersonRepository;
 
 import java.util.List;
 import java.util.Optional;

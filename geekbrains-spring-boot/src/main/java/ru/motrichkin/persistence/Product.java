@@ -1,10 +1,21 @@
 package ru.motrichkin.persistence;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 public class Product {
+
+    public static final Map<String, String> COLUMN_MAPPINGS = new HashMap<>();
+
+    static {
+        COLUMN_MAPPINGS.put("id", "id");
+        COLUMN_MAPPINGS.put("title", "title");
+        COLUMN_MAPPINGS.put("cost", "cost");
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

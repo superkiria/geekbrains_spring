@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.motrichkin.exceptions.NotFoundException;
-import ru.motrichkin.persistence.RoleRepository;
+import ru.motrichkin.persistence.jpa.RoleRepository;
 import ru.motrichkin.service.UserRepresentation;
 import ru.motrichkin.service.UserService;
 
