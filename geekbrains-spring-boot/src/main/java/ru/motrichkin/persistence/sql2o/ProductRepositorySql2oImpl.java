@@ -25,6 +25,8 @@ public class ProductRepositorySql2oImpl implements ProductRepository {
 
     private static final String SELECT_PRODUCTS_QUERY = "select id, title, cost, from product";
     private static final String SELECT_ONE_PRODUCT_QUERY = "select id, title, cost, from product where id = :productId";
+    private static final String SELECT_PRODUCTS_WITH_PAGE_QUERY =
+            "select id, title, cost from product where ROWNUM between :offset and :end";
     private static final String SELECT_PRODUCTS_WITH_PRICE_QUERY =
             "select id, title, cost, from product where cost >= :minPrice and cost <= :maxPrice";
 
@@ -73,28 +75,51 @@ public class ProductRepositorySql2oImpl implements ProductRepository {
 
     @Override
     public Page<Product> findAll(Pageable pageable) {
-        List<Product> products = findAll();
+        List<Product> products;
+        long amountOfProducts;
+        try (Connection connection = sql2o.open()) {
+            products = connection.createQuery(SELECT_PRODUCTS_WITH_PAGE_QUERY, false)
+                    .addParameter("offset", pageable.getOffset())
+                    .addParameter("end", pageable.getOffset() + pageable.getPageSize())
+                    .setColumnMappings(Product.COLUMN_MAPPINGS)
+                    .executeAndFetch(Product.class);
+            amountOfProducts = countProducts(connection);
+        }
         return new PageImpl<>(
-                products.subList((int) pageable.getOffset(), (int) pageable.getOffset() + pageable.getPageSize()),
+                products,
                 pageable,
-                products.size());
+                amountOfProducts);
     }
 
     @Override
     public Page<Product> findAll(ProductSpecification productSpecification, Pageable pageable) {
         List<Product> products;
+        long amountOfProducts;
         try (Connection connection = sql2o.open()) {
             products = connection.createQuery(SELECT_PRODUCTS_WITH_PRICE_QUERY, false)
                     .addParameter("minPrice", productSpecification.getMinPrice())
                     .addParameter("maxPrice", productSpecification.getMaxPrice())
                     .setColumnMappings(Product.COLUMN_MAPPINGS)
                     .executeAndFetch(Product.class);
+            amountOfProducts = countProductsWithPrice(connection, productSpecification.getMinPrice(), productSpecification.getMaxPrice());
         }
         return new PageImpl<>(
                 products.subList((int) pageable.getOffset(),
                                     min((int) pageable.getOffset() + pageable.getPageSize(), products.size())),
                 pageable,
-                products.size());
+                amountOfProducts);
+    }
+
+    private Long countProducts(Connection connection) {
+        return connection.createQuery("select count(id) from product")
+                .executeAndFetch(Long.class).stream().findAny().get();
+    }
+
+    private Long countProductsWithPrice(Connection connection, int minPrice, int maxPrice) {
+        return connection.createQuery("select count(id) from product where cost between :minPrice and :maxPrice")
+                .addParameter("minPrice", minPrice)
+                .addParameter("maxPrice", maxPrice)
+                .executeAndFetch(Long.class).stream().findAny().get();
     }
 
 }
