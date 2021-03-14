@@ -1,16 +1,26 @@
 package ru.motrichkin.websocket;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import ru.motrichkin.websocket.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import ru.motrichkin.session.Bucket;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 @Controller
 public class WebSocketController {
-    @MessageMapping("/productAddedToBucket")
-    @SendTo("/topic/productAddedToBucketSuccess")
+
+    private AtomicLong counter = new AtomicLong(0);
+
+    @Autowired
+    private Bucket bucket;
+
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
     public OutputMessage getMessage(Message message) throws InterruptedException {
-        Thread.sleep(3000);
-        return new OutputMessage("Товар добавлен в корзину");
+        Thread.sleep(300);
+        counter.addAndGet(1);
+        return new OutputMessage("Сообщение через вебсокет " + counter.toString());
     }
 }
