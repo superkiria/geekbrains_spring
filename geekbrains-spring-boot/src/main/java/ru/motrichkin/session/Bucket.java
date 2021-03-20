@@ -9,5 +9,5 @@ public interface Bucket {
 
     public int getProductsAmount();
 
-    void addProduct(Product product);
+    void addProduct(Product product) throws InterruptedException;
 }

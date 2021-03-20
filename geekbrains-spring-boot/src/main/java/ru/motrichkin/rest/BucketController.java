@@ -1,7 +1,10 @@
 package ru.motrichkin.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.trace.http.HttpTrace;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +36,13 @@ public class BucketController {
 
     @PostMapping("/put")
     public String putProductInBucket(@RequestParam("id") Long productId) {
-        productService.getById(productId).ifPresent(value -> bucket.addProduct(value));
+        productService.getById(productId).ifPresent(value -> {
+            try {
+                bucket.addProduct(value);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
         return "redirect:/products";
     }
 }
