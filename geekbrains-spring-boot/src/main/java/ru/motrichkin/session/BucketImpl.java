@@ -16,10 +16,17 @@ import java.util.List;
 public class BucketImpl implements Bucket {
     private List<Product> products = new LinkedList<>();
 
+    @Override
     public Page<Product> getProducts() {
         return new PageImpl<>(products);
     }
 
+    @Override
+    public int getProductsAmount() {
+        return products.size();
+    }
+
+    @Override
     public void addProduct(Product product) {
         products.add(product);
     }

@@ -7,5 +7,7 @@ public interface Bucket {
 
     Page<Product> getProducts();
 
+    public int getProductsAmount();
+
     void addProduct(Product product);
 }
