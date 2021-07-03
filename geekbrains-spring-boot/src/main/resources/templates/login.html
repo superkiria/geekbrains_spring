@@ -1,0 +1,31 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Login form</title>
+    <link rel="stylesheet" th:href="@{/resources/style.css}">
+</head>
+
+<body>
+
+<nav th:replace="fragments/navbar.html :: navbar"/>
+
+<h1>Login</h1>
+<p th:if="${!param.isEmpty()}">Попробуйте ещё раз</p>
+<form th:action="@{/login}" th:object="${user}" method="post">
+    <input th:type="hidden" th:field="*{id}">
+    <p>Username:</p>
+    <p>
+        <input type="text" th:field="*{username}">
+    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Password don't match</p>
+    </p>
+
+    <p>Password:</p>
+    <p>
+        <input type="password" th:field="*{password}">
+    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password don't match</p>
+    </p>
+    <button type="submit">Login</button>
+</form>
+
+</body>
+</html>
