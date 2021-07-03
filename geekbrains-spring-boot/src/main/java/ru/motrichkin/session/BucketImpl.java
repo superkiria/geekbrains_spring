@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
 import ru.motrichkin.persistence.Product;
 import ru.motrichkin.websocket.OutputMessage;
 import ru.motrichkin.websocket.WebSocketController;
@@ -34,6 +35,8 @@ public class BucketImpl implements Bucket {
 
     @Override
     public void addProduct(Product product) {
+        String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+        System.out.println(sessionId);
         products.add(product);
         webSocketController.sendMessage("/secured/user/queue/greetings", new OutputMessage("В корзине " + products.size() + " товаров"));
     }
